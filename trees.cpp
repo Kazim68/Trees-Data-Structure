@@ -375,6 +375,36 @@ class Tree{
             return current;
         }
 
+        // deleting a node
+        Node* deleteNode(Node* current, string val){
+            if (!current)
+                return current;
+
+            if (stoi(val) > stoi(current->data)){
+                current->right = deleteNode(current->right, val);
+            }
+            else if (stoi(val) < stoi(current->data)){
+                current->left = deleteNode(current->left, val);
+            }
+            else{
+                if (!current->left){
+                    return current->right;
+                }
+                else if (!current->right){
+                    return current->left;
+                }
+                else{
+                    Node* temp = current->right;
+                    while (temp->left){
+                        temp = temp->left;
+                    }
+                    current->data = temp->data;
+                    current->right = deleteNode(current->right, temp->data);
+                }
+            }
+            return current; 
+        }
+
 };
 
 int main(){
@@ -399,7 +429,7 @@ int main(){
 
     Tree t(a);
 
-    t.insertRecursive(t.root, "7");
+    t.deleteNode(t.root, "3");
 
     vector<string> result = t.breadthFirstValuesIterative();
 
